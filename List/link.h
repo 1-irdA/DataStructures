@@ -1,5 +1,5 @@
 /**
- * @file link.c
+ * @file link.h
  * @author Adrien GARROUSTE
  * @brief Represent a linked list
  * @version 0.1
