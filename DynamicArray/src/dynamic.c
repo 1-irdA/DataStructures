@@ -1,12 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
-#include "dynamic.h"
+#include "../headers/dynamic.h"
 
 /**
  * @brief To reconize several values
  */
-#define FLAG -0.123456789
+#define FLAG -0.123456789123456789
 
 /**
  * @brief Create the DynamicArray
@@ -26,9 +25,8 @@ int add(DynamicArray * arr, double toAdd) {
     
     int reallocCode = 0;
     
-    if ((arr->array = realloc(arr->array, (arr->size + 1) * sizeof(double)))) {
-        arr->array[arr->size] = toAdd;
-        arr->size++;
+    if (expand(arr, 1) == 0) {
+        arr->array[arr->size - 1] = toAdd;
     } else {
         reallocCode = -1;
     }
@@ -105,8 +103,7 @@ int rmvAll(DynamicArray * arr, double toRemove) {
 }
 
 /**
- * @brief Resize list and remove the FLAG values
- * in DynamicArray
+ * @brief Resize list and remove the FLAG values in DynamicArray
  * @param arr DynamicArray
  */
 int refresh(DynamicArray * arr) {
@@ -154,15 +151,15 @@ void display(DynamicArray arr) {
 /**
  * @brief Count the number 
  * @param arr DynamicArray who contains values
- * @param toCount Values to count
+ * @param toSearch Values to search
  * @return int the number of specified values
  */
-int count(DynamicArray arr, double toCount) {
+int count(DynamicArray arr, double toSearch) {
 
     int nbOccur = 0;
 
     for (int i = 0; i < arr.size; i++) {       
-        if (arr.array[i] == toCount) {
+        if (arr.array[i] == toSearch) {
             nbOccur++;
         }
     }
@@ -173,15 +170,15 @@ int count(DynamicArray arr, double toCount) {
 /**
  * @brief 
  * @param arr 
- * @param toCount 
+ * @param toSearch 
  * @return int 
  */
-int indexOf(DynamicArray arr, double toCount) {
+int indexOf(DynamicArray arr, double toSearch) {
 
     int index = -1;
 
     for (int i = 0; i < arr.size && index == -1; i++) {
-        if (arr.array[i] == toCount) {
+        if (arr.array[i] == toSearch) {
             index = i;
         }
     }
@@ -246,10 +243,69 @@ void insertionSort(DynamicArray * arr) {
     }
 }
 
-void insertAt(DynamicArray * arr, double toAdd, int addAt) {
+/**
+ * @brief Insert a value at specified position
+ * @param arr DynamicArray who contains values
+ * @param toAdd Value to add
+ * @param addAt Position to add value
+ * @return -1 if not added, > 0 else
+ */
+int insertAt(DynamicArray * arr, double toAdd, int addAt) {
+    
+    int oldSize = arr->size;
+
+    if (addAt >= 0 && addAt < arr->size) {
+        expand(arr, 1);
+        putAndShift(arr, toAdd, addAt);
+    } else if (addAt == arr->size) {
+        add(arr, toAdd);
+    }
+
+    return oldSize < arr->size ? 0 : -1;
+}
+
+/**
+ * @brief Copy a DynamicArray in other 
+ * @param dst From DynamicArray
+ * @param src To DynamicArray
+ */
+void copy(DynamicArray * dst, DynamicArray * src) {
     // TODO
 }
 
-void copy(DynamicArray * dst, DynamicArray * src) {
-    // TODO
+/**
+ * @brief Expand array
+ * @param arr DynamicArray to expand
+ * @param more Size in more
+ * @return -1 if not expanded, 0 else
+ */
+int expand(DynamicArray * arr, int more) {
+    
+    int result = -1;
+
+    if (more > 0 && (arr->array = realloc(arr->array, (arr->size + more) * sizeof(double)))) {
+        arr->size += more;
+        result = 0;
+    }
+    
+    return result;
+}
+
+/**
+ * @brief Put toAdd value and shift other values
+ * @param arr DynamicArray who contains values
+ * @param toAdd Value to add
+ * @param mark Index to add value
+ */
+void putAndShift(DynamicArray * arr, double toAdd, int mark) {
+    
+    double temp, toStore = arr->array[mark];
+
+    arr->array[mark] = toAdd;
+
+    for (int i = mark + 1; i < arr->size; i++) {
+        temp = arr->array[i];
+        arr->array[i] = toStore;
+        toStore = temp;
+    }
 }

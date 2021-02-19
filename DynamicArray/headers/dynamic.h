@@ -20,16 +20,20 @@ int refresh(DynamicArray * arr);
 
 void display(DynamicArray arr);
 
-int count(DynamicArray arr, double toCount);
+int count(DynamicArray arr, double toSearch);
 
-int indexOf(DynamicArray arr, double toCount);
+int indexOf(DynamicArray arr, double toSearch);
 
 void combSort(DynamicArray * arr);
 
 void insertionSort(DynamicArray * arr);
 
-void insertAt(DynamicArray * arr, double toAdd, int addAt);
+int insertAt(DynamicArray * arr, double toAdd, int addAt);
 
 void copy(DynamicArray * dst, DynamicArray * src);
+
+void putAndShift(DynamicArray * arr, double toAdd, int mark);
+
+int expand(DynamicArray * arr, int more);
 
 #endif
