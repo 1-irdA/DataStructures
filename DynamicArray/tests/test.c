@@ -7,8 +7,6 @@
  */
 #define FLAG -0.123456789
 
-void displayStatus(int nbTests, int nbSuccess);
-
 void testCreate(int * nbTests, int * nbSuccess);
 void testAdd(int * nbTests, int * nbSuccess);
 void testRmvAtInIndex(int * nbTests, int * nbSuccess);
@@ -25,6 +23,11 @@ void testInsertAtInArrayAtBegin(int * nbTests, int * nbSuccess);
 void testInsertAtInArrayAtEnd(int * nbTests, int * nbSuccess);
 void testInsertAtNegativeIndex(int * nbTests, int * nbSuccess);
 void testInsertAtBiggerIndex(int * nbTests, int * nbSuccess);
+void testCopyWithSameSize(int * nbTests, int * nbSuccess);
+void testCopyWithSrcSizeBigger(int * nbTests, int * nbSuccess);
+void testCopyWithSrcSizeLower(int * nbTests, int * nbSuccess);
+
+void displayStatus(int nbTests, int nbSuccess);
 
 /**
  * @brief Launch test
@@ -50,6 +53,9 @@ int main(void) {
     testInsertAtInArrayAtEnd(&nbTests, &nbSuccess);
     testInsertAtNegativeIndex(&nbTests, &nbSuccess);
     testInsertAtBiggerIndex(&nbTests, &nbSuccess);
+    testCopyWithSameSize(&nbTests, &nbSuccess);
+    testCopyWithSrcSizeBigger(&nbTests, &nbSuccess);
+    testCopyWithSrcSizeLower(&nbTests, &nbSuccess);
 
     displayStatus(nbTests, nbSuccess);
 
@@ -469,6 +475,99 @@ void testInsertAtBiggerIndex(int * nbTests, int * nbSuccess) {
         (*nbSuccess)++;
     } else {
         printf("Fail : testInsertAtBiggerIndex\n");
+    }
+
+    (*nbTests)++;
+}
+
+/**
+ * @brief Test copy two dynamic arrays with same size
+ * @param nbTests Number of tests
+ * @param nbSuccess Number of passed tests
+ */
+void testCopyWithSameSize(int * nbTests, int * nbSuccess) {
+
+    DynamicArray src, dst;
+
+    create(&src);
+    create(&dst);
+
+    add(&src, 1.1);
+    add(&src, 2.2);
+
+    add(&dst, 0);
+    add(&dst, 0);
+
+    copy(&dst, &src);
+
+    if (compare(src.array, src.size, dst.array, dst.size) == 0) {
+        (*nbSuccess)++;
+    } else {
+        printf("Fail : testCopyWithSameSize\n");
+    }
+
+    (*nbTests)++;
+}
+
+/**
+ * @brief Test copy two dynamic arrays with src size bigger
+ * @param nbTests Number of tests
+ * @param nbSuccess Number of passed tests
+ */
+void testCopyWithSrcSizeBigger(int * nbTests, int * nbSuccess) {
+
+    DynamicArray src, dst;
+
+    create(&src);
+    create(&dst);
+
+    add(&src, 1.1);
+    add(&src, 2.2);
+    add(&src, 3.3);
+    add(&src, 4.4);
+
+    add(&dst, 0);
+
+    copy(&dst, &src);
+
+    if (compare(src.array, src.size, dst.array, dst.size) == 0
+        && src.size == 4 
+        && dst.size == 4) {
+        (*nbSuccess)++;
+    } else {
+        printf("Fail : testCopyWithSrcSizeBigger\n");
+    }
+
+    (*nbTests)++;
+}
+
+/**
+ * @brief Test copy two dynamic arrays with dst size lower
+ * @param nbTests Number of tests
+ * @param nbSuccess Number of passed tests
+ */
+void testCopyWithSrcSizeLower(int * nbTests, int * nbSuccess) {
+
+    DynamicArray src, dst;
+
+    create(&src);
+    create(&dst);
+
+    add(&src, 0);
+
+    add(&dst, 1.1);
+    add(&dst, 2.2);
+    add(&dst, 3.3);
+    add(&dst, 4.4);
+
+    copy(&dst, &src);
+
+    if (compare(src.array, src.size, dst.array, dst.size) == 0
+        && src.size == 1 
+        && dst.size == 1) {
+        (*nbSuccess)++;
+    } else {
+        printf("Fail : testCopyWithSrcSizeLower\n");
     }
 
     (*nbTests)++;
