@@ -10,16 +10,18 @@
  */
 void init(Map * self) {
 
+    // init map
     self->pairs = malloc(0 * sizeof(Pair));
     self->length = 0;
 
+    // add map functions
     self->add = add;
     self->display = display;
     self->get_key_by_value = get_key_by_value;
     self->get_value_by_key = get_value_by_key;
     self->copy = copy;
-    /*
     self->remove_first_by_value = remove_first_by_value;
+    /*
     self->remove_all_by_value = remove_all_by_value;
     self->remove_by_key = remove_by_key;
     */
@@ -56,7 +58,11 @@ void display(Map self) {
     printf("{ ");
 
     for (int i = 0; i < self.length; i++) {
-        printf("%.2f: %s, ", self.pairs[i].key, self.pairs[i].value);
+        printf("%.2f: '%s'", self.pairs[i].key, self.pairs[i].value);
+
+        if (i != self.length - 1) {
+            printf(", ");
+        }
     }
 
     printf(" }\n");
@@ -106,21 +112,18 @@ char * get_value_by_key(Map self, double to_search) {
  * @brief Remove specified value and return her
  * @param self Map who contains values
  * @param to_remove String to remove
- * @return char* removed string
  */
 char * remove_first_by_value(Map * self, char * to_remove) { 
 
-    Pair replace = { FLAG, NULL };
-    int to_rmv = get_index_of(self, to_remove);  
+    int to_rmv = get_index_of(self, to_remove); 
     char * removed = NULL;  
 
     if (to_rmv != -1) {
         removed = self->pairs[to_rmv].value;
-        self->pairs[to_rmv] = replace;
+        self->pairs[to_rmv].key = FLAG;
+        self->pairs[to_rmv].value = NULL;
         refresh(self);
-        self->length--;
     }
-
     return removed;
 }
 

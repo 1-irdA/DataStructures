@@ -6,3 +6,8 @@ run:
 
 clean:
 	rm main
+
+all:
+    rm main
+	gcc src/*.c src/utils/*.c tests/*.c tests/utils/*.c -Wall -o main
+    ./main

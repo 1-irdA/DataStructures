@@ -68,7 +68,8 @@ int decrease(Map * to_decrease, int less) {
 
     int result = 1;
 
-    if (less > 0 && less <= to_decrease->length 
+    if (less > 0 
+        && less <= to_decrease->length 
         && (to_decrease->pairs = realloc(to_decrease->pairs, (to_decrease->length - less) * sizeof(Pair)))) {
         to_decrease->length -= less;
         result = 0;
@@ -87,13 +88,13 @@ void copy_values(Map * dst, Map * src) {
 
     for (int i = 0; i < src->length; i++) {
         if (src->pairs[i].value != NULL) {
-            dst->pairs[i] = src->pairs[i];
+            (*dst).add(dst, src->pairs[i].key, src->pairs[i].value);
         }
     }
 }
 
 /**
- * @brief Remove FLAG key and NULL value
+ * @brief Remove NULL value
  * @param to_refresh Map to refresh
  */
 void refresh(Map * to_refresh) {
@@ -101,14 +102,7 @@ void refresh(Map * to_refresh) {
     Map temp;
 
     init(&temp);
-    
-    if ((temp.pairs = realloc(temp.pairs, (to_refresh->length - 1) * sizeof(Pair)))) {
-        copy_values(&temp, to_refresh);
-    }
-
-    temp.display(temp);
-
-    if ((to_refresh->pairs = realloc(to_refresh->pairs, (temp.length) * sizeof(Pair)))) {
-        copy_values(to_refresh, &temp);
-    }
+    copy_values(&temp, to_refresh);
+    init(to_refresh);
+    copy_values(to_refresh, &temp);
 }

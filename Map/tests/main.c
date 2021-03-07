@@ -228,17 +228,22 @@ void test_get_value_by_key_no_key(int * nb_tests, int * nb_success) {
  */
 void test_remove_first_by_value(int * nb_tests, int * nb_success) {
 
-    Map map;
+    Map map, expected;
 
     init(&map);
+    init(&expected);
 
     map.add(&map, 12, "First");
     map.add(&map, 13, "Second");
     map.add(&map, 14, "Third");
 
-    // map.remove_first_by_value(&map, "First");
+    // init expected result
+    expected.add(&expected, 13, "Second");
+    expected.add(&expected, 14, "Third");
 
-    if (map.length == 2) {
+    map.remove_first_by_value(&map, "First");
+
+    if (compare(map, expected) == 0) {
         (*nb_success)++;
     } else {
         printf("FAIL => test_remove_first_by_value\n");
