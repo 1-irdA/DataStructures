@@ -16,9 +16,13 @@ struct map {
     double (*get_key_by_value)(Map self, char * to_search);
     char * (*get_value_by_key)(Map self, double to_search);
     char * (*remove_first_by_value)(Map * self, char * to_remove);
-    char ** (*remove_all_by_value)(Map * self, char * to_remove);
-    double (*remove_by_key)(Map * self, double to_remove);
-    void (*copy)(Map * dst, Map * src);
+    int (*remove_all_by_value)(Map * self, char * to_remove);
+    Pair (*remove_by_key)(Map * self, double to_remove);
+    void (*copy)(Map * dst, Map src);
+    int (*set)(Map * self, double key, char * to_set);
+    void (*clear)(Map * self);
+    int * (*get_keys)(Map self);
+    char ** (*get_values)(Map self);
 };
 
 void init(Map * self);
@@ -27,12 +31,12 @@ void display(Map self);
 double get_key_by_value(Map self, char * to_search);
 char * get_value_by_key(Map self, double to_search);
 char * remove_first_by_value(Map * self, char * to_remove);
-char ** remove_all_by_value(Map * self, char * to_remove);
-double remove_by_key(Map * self, double to_remove);
-void copy(Map * dst, Map * src);
-
-// get_keys
-// get_values
-// set value with key void map.set(&map, key, value)
+int remove_all_by_value(Map * self, char * to_remove);
+Pair remove_by_key(Map * self, double to_remove);
+void copy(Map * dst, Map src);
+int set(Map * self, double key, char * to_set);
+void clear(Map * self);
+int * get_keys(Map self);
+char ** get_values(Map self);
 
 #endif

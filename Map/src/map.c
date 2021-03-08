@@ -2,7 +2,7 @@
 #include "../headers/map.h"
 #include "../headers/map_utils.h"
 
-#define FLAG -0.123456789987654321
+#define FLAG_KEY -0.123456789987654321
 
 /**
  * @brief Init a map
@@ -21,10 +21,12 @@ void init(Map * self) {
     self->get_value_by_key = get_value_by_key;
     self->copy = copy;
     self->remove_first_by_value = remove_first_by_value;
-    /*
     self->remove_all_by_value = remove_all_by_value;
     self->remove_by_key = remove_by_key;
-    */
+    self->set = set;
+    self->clear = clear;
+    self->get_keys = get_keys;
+    self->get_values = get_values;
 }
 
 /**
@@ -37,7 +39,7 @@ void init(Map * self) {
 int add(Map * self, double key, char * value) {
 
     Pair toAdd = { key, value };
-    int added = 1;
+    int added = -1;
 
     if (is_not_present(self, key) == 0) {
         self->length++;
@@ -77,7 +79,7 @@ void display(Map self) {
 double get_key_by_value(Map self, char * to_search) {
 
     int i;
-    double finded_key = FLAG;
+    double finded_key = FLAG_KEY;
 
     for (i = 0; i < self.length && strcmp(self.pairs[i].value, to_search) != 0; i++);
 
@@ -97,7 +99,7 @@ double get_key_by_value(Map self, char * to_search) {
 char * get_value_by_key(Map self, double to_search) {
 
     int i;
-    char * finded_value = NULL;
+    char  * finded_value = NULL;
 
     for (i = 0; i < self.length && self.pairs[i].key != to_search; i++);
 
@@ -115,35 +117,149 @@ char * get_value_by_key(Map self, double to_search) {
  */
 char * remove_first_by_value(Map * self, char * to_remove) { 
 
-    int to_rmv = get_index_of(self, to_remove); 
-    char * removed = NULL;  
+    int to_rmv = get_index_of_value(*self, to_remove); 
+    char  * removed = NULL; 
 
     if (to_rmv != -1) {
         removed = self->pairs[to_rmv].value;
-        self->pairs[to_rmv].key = FLAG;
         self->pairs[to_rmv].value = NULL;
-        refresh(self);
+
+        // remove null values
+        self->copy(self, *self);
     }
+
     return removed;
 }
 
 /**
  * @brief Copy src map to dst map
+ * Uses to remove NULL values too
  * @param dst Receives src values
  * @param src To copy
  */
-void copy(Map * dst, Map * src) {
+void copy(Map * dst, Map src) {
 
-    if (dst->length < src->length) {
-        expand(dst, src->length - dst->length);
-    } else if (dst->length > src->length) {
-        decrease(dst, dst->length - src->length);
+    init(dst);
+
+    for (int i = 0; i < src.length; i++) {
+        if (src.pairs[i].value) {
+            (*dst).add(dst, src.pairs[i].key, src.pairs[i].value);
+        }
     }
-
-    copy_values(dst, src);
 }
 
-/*
-char ** remove_all_by_value(Map * self, char * to_remove) { }
-double remove_by_key(Map * self, double to_remove) { }
-*/
+/**
+ * @brief Remove all pair specified by to_remove
+ * @param self Map who contains values
+ * @param to_remove value to remove
+ * @return int number of removed values
+ */
+int remove_all_by_value(Map * self, char * to_remove) { 
+
+    int removed = 0;
+
+    for (int i = 0; i < self->length; i++) {
+        if (strcmp(self->pairs[i].value, to_remove) == 0) {
+            self->pairs[i].value = NULL;
+            removed++;
+        }
+    }
+
+    // remove null values
+    self->copy(self, *self);
+
+    return removed;
+}
+
+/**
+ * @brief Remove a pair with his key
+ * @param self Map to apply function 
+ * @param to_remove Key to remove
+ * @return Pair removed pair
+ */
+Pair remove_by_key(Map * self, double to_remove) { 
+    
+    Pair removed = { -1, NULL };
+    int index_to_rmv = get_index_of_key(*self, to_remove);
+
+    if (index_to_rmv != -1) {
+        removed.key = self->pairs[index_to_rmv].key;
+        removed.value = self->pairs[index_to_rmv].value;
+        self->pairs[index_to_rmv].value = NULL;
+    }
+
+    // remove null values
+    self->copy(self, *self);
+    
+    return removed;
+}
+
+/**
+ * @brief Update to value at specified key and replace by to_set
+ * @param self Map to apply function
+ * @param key Key to search
+ * @param to_set Value to set
+ * @return int 0 if set, -1 else
+ */
+int set(Map * self, double key, char * to_set) {
+
+    int is_set = -1, index_to_set = get_index_of_key(*self, key);
+    
+    if (index_to_set != -1) {
+        self->pairs[index_to_set].value = to_set; 
+        is_set = 0;
+    }
+
+    return is_set;
+}
+
+/**
+ * @brief Clear map
+ * @param self Map to clear
+ */
+void clear(Map * self) {
+    self->pairs = malloc(0 * sizeof(Pair));
+    self->length = 0;
+}
+
+/**
+ * @brief Get the keys 
+ * @param self Map who contains values
+ * @return int* array of keys
+ */
+int * get_keys(Map self) {
+
+    int * keys = NULL; 
+    
+    if (self.length > 0) {
+
+        keys = calloc(self.length, sizeof(int));
+
+        for (int i = 0; i < self.length; i++) {
+            keys[i] = self.pairs[i].key;
+        }
+    }
+
+    return keys;
+}
+
+/**
+ * @brief Get the values 
+ * @param self Map who contains values
+ * @return char** array of string values
+ */
+char ** get_values(Map self) {
+
+    char ** values = NULL;
+
+    if (self.length > 0) {
+
+        values = calloc(self.length, sizeof(char));
+
+        for (int i = 0; i < self.length; i++) {
+            values[i] = self.pairs[i].value; 
+        }
+    }
+
+    return values;
+}

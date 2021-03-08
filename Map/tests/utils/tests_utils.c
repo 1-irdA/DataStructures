@@ -9,18 +9,17 @@
  */
 int compare(Map first, Map second) {
 
-    int is_same = 0, i;
+    int is_same = -1, i;
 
-    if (first.length != second.length) {
-        is_same = 1;
-    } else {
+    if (first.length == second.length) {
+
         for (i = 0; 
             i < first.length 
             && first.pairs[i].key == second.pairs[i].key
             && strcmp(first.pairs[i].value, second.pairs[i].value) == 0; 
             i++);
 
-        if (i != first.length) {
+        if (i == first.length) {
             is_same = 0;
         }
     }
