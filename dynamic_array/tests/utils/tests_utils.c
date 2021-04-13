@@ -16,6 +16,5 @@ int compare(double * toCompareWithB, int sizeOfA, double * toCompareWithA, int s
         for (i = 0; i < sizeOfA && toCompareWithB[i] == toCompareWithA[i]; i++);
     }
 
-
     return i == sizeOfA ? 0 : -1;
 }
