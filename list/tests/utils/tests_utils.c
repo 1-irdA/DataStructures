@@ -16,7 +16,7 @@ int compare(int * to_compare_with_b, int size_of_a, int * to_compare_with_a, int
         for (i = 0; i < size_of_a && to_compare_with_b[i] == to_compare_with_a[i]; i++);
     }
 
-    return i == size_of_a ? 0 : -1;
+    return i == size_of_a ? 1 : 0;
 }
 
 /**

@@ -1,5 +1,5 @@
 main:
-	gcc src/*.c tests/*.c tests/utils/*.c -Wall -o main
+	gcc src/*.c tests/*.c tests/utils/*.c -Wall -Wextra -pedantic -std=c99 -o main
 
 run:
 	./main

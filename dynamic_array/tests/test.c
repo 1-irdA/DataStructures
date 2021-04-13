@@ -7,27 +7,27 @@
  */
 #define FLAG -0.123456789
 
-void testCreate(int * nbTests, int * nbSuccess);
-void testAdd(int * nbTests, int * nbSuccess);
-void testRmvAtInIndex(int * nbTests, int * nbSuccess);
-void testRmvAtOutIndex(int * nbTests, int * nbSuccess);
-void testRmv(int * nbTests, int * nbSuccess);
-void testRmvAll(int * nbTests, int * nbSuccess);
-void testCount(int * nbTests, int * nbSuccess);
-void testIndexOfIsPresent(int * nbTests, int * nbSuccess);
-void testIndexOfIsNotPresent(int * nbTests, int * nbSuccess);
-void testExpand(int * nbTests, int * nbSuccess);
-void testExpandWithZeroMore(int * nbTests, int * nbSuccess);
-void testExpandWithNegativeMore(int * nbTests, int * nbSuccess);
-void testInsertAtInArrayAtBegin(int * nbTests, int * nbSuccess);
-void testInsertAtInArrayAtEnd(int * nbTests, int * nbSuccess);
-void testInsertAtNegativeIndex(int * nbTests, int * nbSuccess);
-void testInsertAtBiggerIndex(int * nbTests, int * nbSuccess);
-void testCopyWithSameSize(int * nbTests, int * nbSuccess);
-void testCopyWithSrcSizeBigger(int * nbTests, int * nbSuccess);
-void testCopyWithSrcSizeLower(int * nbTests, int * nbSuccess);
+void test_create(int * nb_tests, int * nb_success);
+void test_add(int * nb_tests, int * nb_success);
+void test_remove_at_in_index(int * nb_tests, int * nb_success);
+void test_remove_at_out_index(int * nb_tests, int * nb_success);
+void test_rmv(int * nb_tests, int * nb_success);
+void test_rmv_all(int * nb_tests, int * nb_success);
+void test_count(int * nb_tests, int * nb_success);
+void test_index_of_is_present(int * nb_tests, int * nb_success);
+void test_index_of_is_not_present(int * nb_tests, int * nb_success);
+void test_expand(int * nb_tests, int * nb_success);
+void test_expand_with_zero_more(int * nb_tests, int * nb_success);
+void test_expand_with_negative_more(int * nb_tests, int * nb_success);
+void test_insert_at_in_array_at_begin(int * nb_tests, int * nb_success);
+void test_insert_at_in_array_at_end(int * nb_tests, int * nb_success);
+void test_insert_at_negative_index(int * nb_tests, int * nb_success);
+void test_insert_at_bigger_index(int * nb_tests, int * nb_success);
+void test_copy_with_same_size(int * nb_tests, int * nb_success);
+void test_copy_with_src_size_bigger(int * nb_tests, int * nb_success);
+void test_copy_with_src_size_lower(int * nb_tests, int * nb_success);
 
-void displayStatus(int nbTests, int nbSuccess);
+void display_status(int nb_tests, int nb_success);
 
 /**
  * @brief Launch test
@@ -35,91 +35,93 @@ void displayStatus(int nbTests, int nbSuccess);
  */
 int main(void) {
 
-    int nbTests = 0, nbSuccess = 0;
-    
-    testCreate(&nbTests, &nbSuccess);
-    testAdd(&nbTests, &nbSuccess);
-    testRmvAtInIndex(&nbTests, &nbSuccess);
-    testRmvAtOutIndex(&nbTests, &nbSuccess);
-    testRmv(&nbTests, &nbSuccess);
-    testRmvAll(&nbTests, &nbSuccess);
-    testCount(&nbTests, &nbSuccess);
-    testIndexOfIsPresent(&nbTests, &nbSuccess);
-    testIndexOfIsNotPresent(&nbTests, &nbSuccess);
-    testExpand(&nbTests, &nbSuccess);
-    testExpandWithZeroMore(&nbTests, &nbSuccess);
-    testExpandWithNegativeMore(&nbTests, &nbSuccess);
-    testInsertAtInArrayAtBegin(&nbTests, &nbSuccess);
-    testInsertAtInArrayAtEnd(&nbTests, &nbSuccess);
-    testInsertAtNegativeIndex(&nbTests, &nbSuccess);
-    testInsertAtBiggerIndex(&nbTests, &nbSuccess);
-    testCopyWithSameSize(&nbTests, &nbSuccess);
-    testCopyWithSrcSizeBigger(&nbTests, &nbSuccess);
-    testCopyWithSrcSizeLower(&nbTests, &nbSuccess);
+    int nb_tests = 0, nb_success = 0;
 
-    displayStatus(nbTests, nbSuccess);
+    printf("********** tests dynamic.c **********\n\n");
+    
+    test_create(&nb_tests, &nb_success);
+    test_add(&nb_tests, &nb_success);
+    test_remove_at_in_index(&nb_tests, &nb_success);
+    test_remove_at_out_index(&nb_tests, &nb_success);
+    test_rmv(&nb_tests, &nb_success);
+    test_rmv_all(&nb_tests, &nb_success);
+    test_count(&nb_tests, &nb_success);
+    test_index_of_is_present(&nb_tests, &nb_success);
+    test_index_of_is_not_present(&nb_tests, &nb_success);
+    test_expand(&nb_tests, &nb_success);
+    test_expand_with_zero_more(&nb_tests, &nb_success);
+    test_expand_with_negative_more(&nb_tests, &nb_success);
+    test_insert_at_in_array_at_begin(&nb_tests, &nb_success);
+    test_insert_at_in_array_at_end(&nb_tests, &nb_success);
+    test_insert_at_negative_index(&nb_tests, &nb_success);
+    test_insert_at_bigger_index(&nb_tests, &nb_success);
+    test_copy_with_same_size(&nb_tests, &nb_success);
+    test_copy_with_src_size_bigger(&nb_tests, &nb_success);
+    test_copy_with_src_size_lower(&nb_tests, &nb_success);
+
+    display_status(nb_tests, nb_success);
 
     return 0;
 }
 
 /**
  * @brief Test create function
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testCreate(int * nbTests, int * nbSuccess) {
+void test_create(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
 
     create(&arr);
 
     if (arr.size == 0 && arr.array != NULL) {
-        (*nbSuccess)++;
+        (*nb_success)++;
     } else {
-        printf("Fail : testCreate\n");
+        printf("Fail : test_create\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test add function
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testAdd(int * nbTests, int * nbSuccess) {
+void test_add(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
-    double toAdd = 12.00;
-    int oldSize, toTest;
+    double to_add = 12.00;
+    int old_size, to_test;
 
     create(&arr);
     
-    oldSize = arr.size;
-    toTest = add(&arr, toAdd);
+    old_size = arr.size;
+    to_test = add(&arr, to_add);
 
-    if (toTest == 0 
+    if (to_test == 0 
         && arr.size == 1 
-        && arr.array[0] == toAdd
-        && oldSize < arr.size) {
-        (*nbSuccess)++;
+        && arr.array[0] == to_add
+        && old_size < arr.size) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testAdd\n");
+        printf("Fail : test_add\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test rmvAt function with index in array
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test rmv_at function with index in array
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testRmvAtInIndex(int * nbTests, int * nbSuccess) {
+void test_remove_at_in_index(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
     double num = 12.00;
-    int index = 10, oldSize;
+    int index = 10, old_size;
 
     create(&arr);
  
@@ -127,27 +129,27 @@ void testRmvAtInIndex(int * nbTests, int * nbSuccess) {
         add(&arr, num * i);
     }
 
-    oldSize = arr.size;
+    old_size = arr.size;
 
-    if (rmvAt(&arr, index) == 0 && oldSize > arr.size) {
-        (*nbSuccess)++;
+    if (rmv_at(&arr, index) && old_size > arr.size) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testRmvAtInIndex\n");
+        printf("Fail : test_remove_at_in_index\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test rmvAt function with index out array
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test rmv_at function with index out array
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testRmvAtOutIndex(int * nbTests, int * nbSuccess) {
+void test_remove_at_out_index(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
     double num = 12.00;
-    int index = 13, oldSize;
+    int index = 13, old_size;
 
     create(&arr);
  
@@ -155,23 +157,23 @@ void testRmvAtOutIndex(int * nbTests, int * nbSuccess) {
         add(&arr, num * i);
     }
 
-    oldSize = arr.size;
+    old_size = arr.size;
 
-    if (rmvAt(&arr, index) == -1 && oldSize == arr.size) {
-        (*nbSuccess)++;
+    if (rmv_at(&arr, index) != 1 && old_size == arr.size) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testRmvAtOutIndex\n");
+        printf("Fail : test_remove_at_out_index\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test rmv function
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testRmv(int * nbTests, int * nbSuccess) {
+void test_rmv(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
     double num = 12.00;
@@ -185,76 +187,75 @@ void testRmv(int * nbTests, int * nbSuccess) {
     add(&arr, num);
     add(&arr, num);
 
-    if (rmv(&arr, num) == 0
-        && compare(arr.array, arr.size, fixture, 5) == 0) {
-        (*nbSuccess)++;
+    if (rmv(&arr, num) && compare(arr.array, arr.size, fixture, 5)) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testRmv\n");
+        printf("Fail : test_rmv\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test rmvAll function
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test rmv_all function
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testRmvAll(int * nbTests, int * nbSuccess) {
+void test_rmv_all(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
     double num = 12.00;
-    int nbToAdd = 6;
+    int nb_to_add = 6;
     double fixture[] = { };
 
     create(&arr);
     
-    for (int i = 0; i < nbToAdd; i++) {
+    for (int i = 0; i < nb_to_add; i++) {
         add(&arr, num);
     }
 
-    if (rmvAll(&arr, num) == nbToAdd
+    if (rmv_all(&arr, num) == nb_to_add
         && compare(arr.array, arr.size, fixture, 0)) {
-        (*nbSuccess)++;
+        (*nb_success)++;
     } else {
-        printf("Fail : testRmvAll\n");
+        printf("Fail : test_rmv_all\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test count function
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testCount(int * nbTests, int * nbSuccess) {
+void test_count(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
     double num = 12.00;
-    int nbToAdd = 6;
+    int nb_to_add = 6;
 
     create(&arr);
     
-    for (int i = 0; i < nbToAdd; i++) {
+    for (int i = 0; i < nb_to_add; i++) {
         add(&arr, num);
     }
 
-    if (count(arr, num) == nbToAdd) {
-        (*nbSuccess)++;
+    if (count(arr, num) == nb_to_add) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testCount\n");
+        printf("Fail : test_count\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test indexOf function with present number
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test index_of function with present number
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testIndexOfIsPresent(int * nbTests, int * nbSuccess) {
+void test_index_of_is_present(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
 
@@ -266,21 +267,21 @@ void testIndexOfIsPresent(int * nbTests, int * nbSuccess) {
     add(&arr, -897.6);
     add(&arr, 15);
 
-    if (indexOf(arr, -89.81) == 2) {
-        (*nbSuccess)++;
+    if (index_of(arr, -89.81) == 2) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testIndexOfIsPresent\n");
+        printf("Fail : test_index_of_is_present\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test indexOf function with not present number
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test index_of function with not present number
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testIndexOfIsNotPresent(int * nbTests, int * nbSuccess) {
+void test_index_of_is_not_present(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
 
@@ -292,94 +293,94 @@ void testIndexOfIsNotPresent(int * nbTests, int * nbSuccess) {
     add(&arr, -897.6);
     add(&arr, 15);
 
-    if (indexOf(arr, 1001) == -1) {
-        (*nbSuccess)++;
+    if (index_of(arr, 1001) == -1) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testIndexOfIsNotPresent\n");
+        printf("Fail : test_index_of_is_not_present\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test expand function
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testExpand(int * nbTests, int * nbSuccess) {
+void test_expand(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
-    int oldSize, more = 10;
+    int old_size, more = 10;
     
     create(&arr);
 
-    oldSize = arr.size;
+    old_size = arr.size;
 
-    if (expand(&arr, more) == 0 && oldSize < arr.size && arr.size == more) {
-        (*nbSuccess)++;
+    if (expand(&arr, more) == 0 && old_size < arr.size && arr.size == more) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testExpand\n");
+        printf("Fail : test_expand\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test expand function with zero size in more
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testExpandWithZeroMore(int * nbTests, int * nbSuccess) {
+void test_expand_with_zero_more(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
-    int oldSize;
+    int old_size;
     
     create(&arr);
 
-    oldSize = arr.size;
+    old_size = arr.size;
 
-    if (expand(&arr, 0) == -1 && oldSize == arr.size) {
-        (*nbSuccess)++;
+    if (expand(&arr, 0) == -1 && old_size == arr.size) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testExpandWithZeroMore\n");
+        printf("Fail : test_expand_with_zero_more\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test expand function with negative size in more
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testExpandWithNegativeMore(int * nbTests, int * nbSuccess) {
+void test_expand_with_negative_more(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
-    int oldSize;
+    int old_size;
     
     create(&arr);
 
-    oldSize = arr.size;
+    old_size = arr.size;
 
-    if (expand(&arr, -10) == -1 && oldSize == arr.size) {
-        (*nbSuccess)++;
+    if (expand(&arr, -10) == -1 && old_size == arr.size) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testExpandWithNegativeMore\n");
+        printf("Fail : test_expand_with_negative_more\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test insertAt function and add a value at 0 index
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test insert_at function and add a value at 0 index
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testInsertAtInArrayAtBegin(int * nbTests, int * nbSuccess) {
+void test_insert_at_in_array_at_begin(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
-    int addAt = 0;
-    double toAdd = 4.4;
+    int add_at = 0;
+    double to_add = 4.4;
     double fixture[] = { 4.4, 1.1, 2.2, 3.3 };
 
     create(&arr);
@@ -387,27 +388,27 @@ void testInsertAtInArrayAtBegin(int * nbTests, int * nbSuccess) {
     add(&arr, 2.2);
     add(&arr, 3.3);
 
-    if (insertAt(&arr, toAdd, addAt) != -1
-        && arr.array[addAt] == toAdd
-        && compare(arr.array, arr.size, fixture, 4) == 0) {
-        (*nbSuccess)++;
+    if (insert_at(&arr, to_add, add_at) != -1
+        && arr.array[add_at] == to_add
+        && compare(arr.array, arr.size, fixture, 4)) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testInsertAtInArrayAtBegin\n");
+        printf("Fail : test_insert_at_in_array_at_begin\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test insertAt function and add at end
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test insert_at function and add at end
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testInsertAtInArrayAtEnd(int * nbTests, int * nbSuccess) {
+void test_insert_at_in_array_at_end(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
-    int addAt = 3;
-    double toAdd = 4.4;
+    int add_at = 3;
+    double to_add = 4.4;
     double fixture[] = { 1.1, 2.2, 3.3, 4.4 };
 
     create(&arr);
@@ -415,27 +416,27 @@ void testInsertAtInArrayAtEnd(int * nbTests, int * nbSuccess) {
     add(&arr, 2.2);
     add(&arr, 3.3);
 
-    if (insertAt(&arr, toAdd, addAt) != -1
-        && arr.array[addAt] == toAdd
-        && compare(arr.array, arr.size, fixture, 4) == 0) {
-        (*nbSuccess)++;
+    if (insert_at(&arr, to_add, add_at) != -1
+        && arr.array[add_at] == to_add
+        && compare(arr.array, arr.size, fixture, 4)) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testInsertAtInArrayAtEnd\n");
+        printf("Fail : test_insert_at_in_array_at_end\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test inserAt function with add at a negative index
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test insert_at function with add at a negative index
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testInsertAtNegativeIndex(int * nbTests, int * nbSuccess) {
+void test_insert_at_negative_index(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
-    int addAt = -2;
-    double toAdd = 4.4;
+    int add_at = -2;
+    double to_add = 4.4;
     double fixture[] = { 1.1, 2.2, 3.3 };
 
     create(&arr);
@@ -443,26 +444,26 @@ void testInsertAtNegativeIndex(int * nbTests, int * nbSuccess) {
     add(&arr, 2.2);
     add(&arr, 3.3);
 
-    if (insertAt(&arr, toAdd, addAt) == -1
-        && compare(arr.array, arr.size, fixture, 3) == 0) {
-        (*nbSuccess)++;
+    if (insert_at(&arr, to_add, add_at) == -1
+        && compare(arr.array, arr.size, fixture, 3)) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testInsertAtNegativeIndex\n");
+        printf("Fail : test_insert_at_negative_index\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
- * @brief Test inserAt function with add at a bigger index
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @brief Test insert_at function with add at a bigger index
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testInsertAtBiggerIndex(int * nbTests, int * nbSuccess) {
+void test_insert_at_bigger_index(int * nb_tests, int * nb_success) {
 
     DynamicArray arr;
-    int addAt = 15;
-    double toAdd = 4.4;
+    int add_at = 15;
+    double to_add = 4.4;
     double fixture[] = { 1.1, 2.2, 3.3 };
 
     create(&arr);
@@ -470,22 +471,22 @@ void testInsertAtBiggerIndex(int * nbTests, int * nbSuccess) {
     add(&arr, 2.2);
     add(&arr, 3.3);
 
-    if (insertAt(&arr, toAdd, addAt) == -1
-        && compare(arr.array, arr.size, fixture, 3) == 0) {
-        (*nbSuccess)++;
+    if (insert_at(&arr, to_add, add_at) == -1
+        && compare(arr.array, arr.size, fixture, 3)) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testInsertAtBiggerIndex\n");
+        printf("Fail : test_insert_at_bigger_index\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test copy two dynamic arrays with same size
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testCopyWithSameSize(int * nbTests, int * nbSuccess) {
+void test_copy_with_same_size(int * nb_tests, int * nb_success) {
 
     DynamicArray src, dst;
 
@@ -500,21 +501,21 @@ void testCopyWithSameSize(int * nbTests, int * nbSuccess) {
 
     copy(&dst, &src);
 
-    if (compare(src.array, src.size, dst.array, dst.size) == 0) {
-        (*nbSuccess)++;
+    if (compare(src.array, src.size, dst.array, dst.size)) {
+        (*nb_success)++;
     } else {
-        printf("Fail : testCopyWithSameSize\n");
+        printf("Fail : test_copy_with_same_size\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test copy two dynamic arrays with src size bigger
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testCopyWithSrcSizeBigger(int * nbTests, int * nbSuccess) {
+void test_copy_with_src_size_bigger(int * nb_tests, int * nb_success) {
 
     DynamicArray src, dst;
 
@@ -530,23 +531,23 @@ void testCopyWithSrcSizeBigger(int * nbTests, int * nbSuccess) {
 
     copy(&dst, &src);
 
-    if (compare(src.array, src.size, dst.array, dst.size) == 0
+    if (compare(src.array, src.size, dst.array, dst.size)
         && src.size == 4 
         && dst.size == 4) {
-        (*nbSuccess)++;
+        (*nb_success)++;
     } else {
-        printf("Fail : testCopyWithSrcSizeBigger\n");
+        printf("Fail : test_copy_with_src_size_bigger\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Test copy two dynamic arrays with dst size lower
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void testCopyWithSrcSizeLower(int * nbTests, int * nbSuccess) {
+void test_copy_with_src_size_lower(int * nb_tests, int * nb_success) {
 
     DynamicArray src, dst;
 
@@ -562,22 +563,22 @@ void testCopyWithSrcSizeLower(int * nbTests, int * nbSuccess) {
 
     copy(&dst, &src);
 
-    if (compare(src.array, src.size, dst.array, dst.size) == 0
+    if (compare(src.array, src.size, dst.array, dst.size)
         && src.size == 1 
         && dst.size == 1) {
-        (*nbSuccess)++;
+        (*nb_success)++;
     } else {
-        printf("Fail : testCopyWithSrcSizeLower\n");
+        printf("Fail : test_copy_with_src_size_lower\n");
     }
 
-    (*nbTests)++;
+    (*nb_tests)++;
 }
 
 /**
  * @brief Display the number of passed tests
- * @param nbTests Number of tests
- * @param nbSuccess Number of passed tests
+ * @param nb_tests Number of tests
+ * @param nb_success Number of passed tests
  */
-void displayStatus(int nbTests, int nbSuccess) {
-    printf("PASSED %d / %d\n", nbSuccess, nbTests);
+void display_status(int nb_tests, int nb_success) {
+    printf("PASSED %d / %d\n", nb_success, nb_tests);
 }

@@ -26,12 +26,8 @@ void create(List * l) {
 void display(List l) {
     List pl = NULL;	
 
-    if (l == NULL) {
-        printf("Empty list.");
-    } else {
-	    for (pl = l; pl; pl = pl->next) {
-            printf("%d ", pl->value);
-        }
+	for (pl = l; pl; pl = pl->next) {
+        printf("%d ", pl->value);
     }
     printf("\n");
 }
@@ -55,7 +51,7 @@ int count(List l) {
  * \brief Add an element at the beginning of the list
  * \param List * l address of the first link list
  * \param int to_add integer to add at the beginning of the list
- * \return int 1 if removed, 0 else
+ * \return int 1 if added, 0 else
  */ 
 int add_at_begin(List * l, int to_add) {
     List pl = *l;
@@ -80,7 +76,7 @@ int add_at_end(List * l, int to_add) {
     int added = 1;
 
     if (*l == NULL) {
-        add_at_begin(&(*l), to_add);
+        add_at_begin(l, to_add);
     } else {
 	    for (pl = *l; pl->next; pl = pl->next) {
         }
@@ -145,12 +141,12 @@ int remove_at_end(List * l) {
  */ 
 int remove_first_occur(List * l, int occur_to_remove) {
     List pl = NULL, save = NULL;
-    int removed = -1;
+    int removed = 1;
 
     if (*l == NULL) {
         removed = 0;
     } else if ((*l)->value == occur_to_remove) {
-        remove_at_begin(&(*l));
+        remove_at_begin(l);
     } else {
         for (pl = *l; pl->next->next && pl->next->value != occur_to_remove; pl = pl->next) {
         }
@@ -173,30 +169,43 @@ int remove_first_occur(List * l, int occur_to_remove) {
  * \param int occur_to_remove the value to removed one time
  * \return int number of removed value
  */ 
-void remove_all_occur(List * l, int occur_to_remove) {
-    if (count(*l) == 1 && (*l)->value == occur_to_remove) {
+int remove_all_occur(List * l, int occur_to_remove) {
+    List pl = NULL, save = NULL;
+    int nb_removed = 0;
+
+    while (*l && (*l)->value == occur_to_remove) {
         remove_at_begin(l);
-    } else {
-        copy_without_occur(l, l, occur_to_remove);
+        nb_removed++;
+    } 
+    
+    if (*l) {
+        for (pl = *l; pl && pl->next; pl = pl->next) {
+            if (pl->next->value == occur_to_remove) {
+                save = pl->next->next;
+                free(pl->next);
+                pl->next = save;
+                nb_removed++;
+            }
+        }
     }
+
+    return nb_removed;
 }
 
 /**
  * \brief Copy all value(s) different(s) of notToCopy
- * \param List * l list who contains several values
- * \param List * modified_list a list with all values different of not_to_copy
+ * \param List * l src who contains several values
+ * \param List * dst a list with all values different of not_to_copy
  * \param int not_to_copy the forbidden value to copy
  */ 
-void copy_without_occur(List * l, List * modified_list, int not_to_copy) {
+void copy_without_occur(List * src, List * dst, int not_to_copy) {
     List pl = NULL;
 
-    if (l && modified_list) {
-
-        empty(modified_list);
-
-        for (pl = *l; pl->next; pl = pl->next) {
-            if (pl->value != not_to_copy) {
-                add_at_end(modified_list, pl->value);
+    if (src && dst) {
+        empty(dst);
+        for (pl = *src; pl; pl = pl->next) {
+            if (pl->value != not_to_copy) {          
+                add_at_end(dst, pl->value);
 	        }
 	    }
     }
@@ -230,7 +239,7 @@ int insert_after_occur(List * l, int occur_to_search, int to_add) {
     if (*l == NULL) {
         added = 0;
     } else {
-        for (pl = *l; pl->next && pl->value != occur_to_search; pl = pl->next) {
+        for (pl = *l; pl && pl->value != occur_to_search; pl = pl->next) {
         }
 
 	    if (pl) {
@@ -278,7 +287,7 @@ int insert_after_each_occur(List * l, int occur_to_search, int to_add) {
  */ 
 int is_same_list(List first_list, List second_list) {
     List p_fl = NULL, p_sl = NULL;
-    int is_same = 0;
+    int is_same = 1;
 
     if (first_list && second_list) {
         for (p_fl = first_list, p_sl = second_list; 
@@ -288,6 +297,8 @@ int is_same_list(List first_list, List second_list) {
 
 	    if (p_fl == NULL && p_sl == NULL) {
 	        is_same = 1;
+        } else {
+            is_same = 0;
         }
     }
 

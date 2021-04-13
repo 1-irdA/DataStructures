@@ -22,12 +22,12 @@ void create(DynamicArray * arr) {
  * @param arr DynamicArray who contains values
  * @param toAdd Value to add
  */
-int add(DynamicArray * arr, double toAdd) {
+int add(DynamicArray * arr, double to_add) {
     
     int reallocCode = 0;
     
     if (expand(arr, 1) == 0) {
-        arr->array[arr->size - 1] = toAdd;
+        arr->array[arr->size - 1] = to_add;
     } else {
         reallocCode = -1;
     }
@@ -38,18 +38,17 @@ int add(DynamicArray * arr, double toAdd) {
 /**
  * @brief Remove value at index
  * @param arr DynamicArray who contains values
- * @param removeAt Index to remove
- * @return double the removed value
+ * @param remove_at Index to remove
+ * @return 1 if removed
  */
-int rmvAt(DynamicArray * arr, int removeAt) {
+int rmv_at(DynamicArray * arr, int remove_at) {
     
-    int removed = -1;
+    int removed = 0;
 
-    if (removeAt < arr->size) {
-        arr->array[removeAt] = FLAG; 
-        if (refresh(arr) == 0) {
-            removed = 0;
-        }
+    if (remove_at < arr->size) {
+        arr->array[remove_at] = FLAG; 
+        refresh(arr);
+        removed = 1;
     }
 
     return removed;
@@ -58,22 +57,22 @@ int rmvAt(DynamicArray * arr, int removeAt) {
 /**
  * @brief Remove a specified value
  * @param arr DynamicArray who contains values
- * @param toRemove Value to remove
- * @return double the removed value
+ * @param to_remove Value to remove
+ * @return 1 if removed
  */
-int rmv(DynamicArray * arr, double toRemove) {
+int rmv(DynamicArray * arr, double to_remove) {
 
-    int removed = -1;
+    int removed = 0;
 
-    for (int i = 0; i < arr->size && removed == -1; i++) {
-        if (arr->array[i] == toRemove) {
+    for (int i = 0; i < arr->size && removed == 0; i++) {
+        if (arr->array[i] == to_remove) {
             arr->array[i] = FLAG;
-            removed = 0;
+            removed = 1;
         }
     }
 
-    if (removed == 0 && refresh(arr) == -1) {
-        removed = -1;
+    if (removed == 1) {
+       refresh(arr);
     }
 
     return removed;
@@ -82,25 +81,25 @@ int rmv(DynamicArray * arr, double toRemove) {
 /**
  * @brief Remove all specified value
  * @param arr DynamicArray who contains values
- * @param toRemove Value to remove
+ * @param to_remove Value to remove
  * @return int the number of removed values
  */
-int rmvAll(DynamicArray * arr, double toRemove) {
+int rmv_all(DynamicArray * arr, double to_remove) {
     
-    int nbRemoved = 0;
+    int nb_removed = 0;
 
     for (int i = 0; i < arr->size; i++) {
-        if (arr->array[i] == toRemove) {
+        if (arr->array[i] == to_remove) {
             arr->array[i] = FLAG;
-            nbRemoved++;
+            nb_removed++;
         }
     }
 
-    if (refresh(arr) == 0) {
-        nbRemoved = -1;
+    if (nb_removed > 0) {
+        refresh(arr);
     }
 
-    return nbRemoved;
+    return nb_removed;
 }
 
 /**
@@ -119,34 +118,34 @@ void display(DynamicArray arr) {
 /**
  * @brief Count the number 
  * @param arr DynamicArray who contains values
- * @param toSearch Values to search
+ * @param to_search Values to search
  * @return int the number of specified values
  */
-int count(DynamicArray arr, double toSearch) {
+int count(DynamicArray arr, double to_search) {
 
-    int nbOccur = 0;
+    int nb_occur = 0;
 
     for (int i = 0; i < arr.size; i++) {       
-        if (arr.array[i] == toSearch) {
-            nbOccur++;
+        if (arr.array[i] == to_search) {
+            nb_occur++;
         }
     }
 
-    return nbOccur;
+    return nb_occur;
 }
 
 /**
  * @brief Get the index of value to search
  * @param arr DynamicArray who contains values
- * @param toSearch Value to search
+ * @param to_search Value to search
  * @return int indesx of searched value
  */
-int indexOf(DynamicArray arr, double toSearch) {
+int index_of(DynamicArray arr, double to_search) {
 
     int index = -1;
 
     for (int i = 0; i < arr.size && index == -1; i++) {
-        if (arr.array[i] == toSearch) {
+        if (arr.array[i] == to_search) {
             index = i;
         }
     }
@@ -158,14 +157,14 @@ int indexOf(DynamicArray arr, double toSearch) {
  * @brief Sort values
  * @param arr DynamicArray who contains values
  */
-void combSort(DynamicArray * arr) {
+void comb_sort(DynamicArray * arr) {
 
     int inter = arr->size;
-    int isSwap = 1;
+    int is_swap = 1;
     int size = inter, i;
     double temp;
 
-    while (inter > 1 || isSwap == 1) {
+    while (inter > 1 || is_swap == 1) {
 
         inter = (int) (inter / 1.3);
 
@@ -174,7 +173,7 @@ void combSort(DynamicArray * arr) {
         }
 
         i = 0;
-        isSwap = 0;
+        is_swap = 0;
 
         while (i < size - inter) {
 
@@ -183,7 +182,7 @@ void combSort(DynamicArray * arr) {
                 temp = arr->array[i + inter];
                 arr->array[i + inter] = arr->array[i];
                 arr->array[i] = temp;
-                isSwap = 1;
+                is_swap = 1;
             }
 
             i++;
@@ -195,38 +194,38 @@ void combSort(DynamicArray * arr) {
  * @brief Insert ascending sort
  * @param arr DynamicArray who contains values
  */
-void insertionSort(DynamicArray * arr) {
+void insertion_sort(DynamicArray * arr) {
 
-    double toInsert;
+    double to_insert;
     int place;
 
     for (int step = 1; step < arr->size; step++) {
-        toInsert = arr->array[step];    
+        to_insert = arr->array[step];    
         // search place to insert
-        for (place = step; place > 0 && arr->array[place - 1] > toInsert; place--) {
+        for (place = step; place > 0 && arr->array[place - 1] > to_insert; place--) {
             arr->array[place] = arr->array[place - 1];
         }
 
-        arr->array[place] = toInsert;
+        arr->array[place] = to_insert;
     }
 }
 
 /**
  * @brief Insert a value at specified position
  * @param arr DynamicArray who contains values
- * @param toAdd Value to add
- * @param addAt Position to add value
+ * @param to_add Value to add
+ * @param add_at Position to add value
  * @return -1 if not added, > 0 else
  */
-int insertAt(DynamicArray * arr, double toAdd, int addAt) {
+int insert_at(DynamicArray * arr, double to_add, int add_at) {
     
     int oldSize = arr->size;
 
-    if (addAt >= 0 && addAt < arr->size) {
+    if (add_at >= 0 && add_at < arr->size) {
         expand(arr, 1);
-        putAndShift(arr, toAdd, addAt);
-    } else if (addAt == arr->size) {
-        add(arr, toAdd);
+        put_and_shift(arr, to_add, add_at);
+    } else if (add_at == arr->size) {
+        add(arr, to_add);
     }
 
     return oldSize < arr->size ? 0 : -1;
@@ -245,5 +244,5 @@ void copy(DynamicArray * dst, DynamicArray * src) {
         decrease(dst, dst->size - src->size);
     }
 
-    copyValues(dst, src);
+    copy_values(dst, src);
 }

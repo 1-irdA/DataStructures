@@ -1,6 +1,6 @@
 #include <stdlib.h>
-#include "../../headers/dynamic.h"
-
+#include "../../headers/dynamic_utils.h"
+#include <stdio.h>
 /**
  * @brief To reconize several values
  */
@@ -10,33 +10,29 @@
  * @brief Resize list and remove the FLAG values in DynamicArray
  * @param arr DynamicArray
  */
-int refresh(DynamicArray * arr) {
+void refresh(DynamicArray * arr) {
     
-    int nbValues = 0;
+    int nb_values = 0;
     double * temp = malloc(0 * sizeof(double));
-    
+
     // Copy old array in new temporal array
     for (int i = 0; i < arr->size; i++) {
 	    if (arr->array[i] != FLAG) {
-            nbValues++;
-	        if ((temp = realloc(temp, (0 + nbValues) * sizeof(double)))) {
-                temp[nbValues - 1] = arr->array[i];
+            nb_values++;
+	        if ((temp = realloc(temp, nb_values * sizeof(double)))) {
+                temp[nb_values - 1] = arr->array[i];
             }
         }
     }
 
-    if (nbValues > 0) {
-        // Init a new array
-        arr->array = malloc(nbValues * sizeof(double));
-        arr->size = nbValues;
+    // Init a new array
+    arr->array = malloc(nb_values * sizeof(double));
+    arr->size = nb_values;
 
-        // Copy values from temporal array to current array
-        for (int i = 0; i < arr->size; i++) {
-	        arr->array[i] = temp[i];
-        }
+    // Copy values from temporal array to current array
+    for (int i = 0; i < arr->size; i++) {
+	    arr->array[i] = temp[i];
     }
-    
-    return nbValues > 0 ? 0 : -1;
 }
 
 /**
@@ -81,11 +77,11 @@ int decrease(DynamicArray * arr, int less) {
  * @param toAdd Value to add
  * @param mark Index to add value
  */
-void putAndShift(DynamicArray * arr, double toAdd, int mark) {
+void put_and_shift(DynamicArray * arr, double to_add, int mark) {
     
     double temp, toStore = arr->array[mark];
 
-    arr->array[mark] = toAdd;
+    arr->array[mark] = to_add;
 
     for (int i = mark + 1; i < arr->size; i++) {
         temp = arr->array[i];
@@ -99,7 +95,7 @@ void putAndShift(DynamicArray * arr, double toAdd, int mark) {
  * @param dst DynamicArray destination
  * @param src DynamicArray source
  */
-void copyValues(DynamicArray * dst, DynamicArray * src) {
+void copy_values(DynamicArray * dst, DynamicArray * src) {
     for (int i = 0; i < src->size; i++) {
         dst->array[i] = src->array[i];
     }

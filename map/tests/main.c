@@ -29,6 +29,8 @@ int main() {
     
     int nb_tests = 0, nb_success = 0;
 
+    printf("********** tests map.c **********\n\n");
+
     test_init(&nb_tests, &nb_success);
     test_add(&nb_tests, &nb_success);
     test_add_same_key(&nb_tests, &nb_success);

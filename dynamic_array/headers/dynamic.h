@@ -8,31 +8,29 @@ typedef struct dynamic {
 
 void create(DynamicArray * arr);
 
-int add(DynamicArray * arr, double toAdd);
+int add(DynamicArray * arr, double to_add);
 
-int rmvAt(DynamicArray * arr, int removeAt);
+int rmv_at(DynamicArray * arr, int remove_at);
 
-int rmv(DynamicArray * arr, double toRemove);
+int rmv(DynamicArray * arr, double to_remove);
 
-int rmvAll(DynamicArray * arr, double toRemove);
-
-int refresh(DynamicArray * arr);
+int rmv_all(DynamicArray * arr, double to_remove);
 
 void display(DynamicArray arr);
 
-int count(DynamicArray arr, double toSearch);
+int count(DynamicArray arr, double to_search);
 
-int indexOf(DynamicArray arr, double toSearch);
+int index_of(DynamicArray arr, double to_search);
 
-void combSort(DynamicArray * arr);
+void comb_sort(DynamicArray * arr);
 
-void insertionSort(DynamicArray * arr);
+void insertion_sort(DynamicArray * arr);
 
-int insertAt(DynamicArray * arr, double toAdd, int addAt);
+int insert_at(DynamicArray * arr, double to_add, int add_at);
 
 void copy(DynamicArray * dst, DynamicArray * src);
 
-void putAndShift(DynamicArray * arr, double toAdd, int mark);
+void put_and_shift(DynamicArray * arr, double to_add, int mark);
 
 int expand(DynamicArray * arr, int more);
 

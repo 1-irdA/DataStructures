@@ -1,5 +1,5 @@
 main:
-	gcc src/*.c src/utils/*.c tests/*.c tests/utils/*.c -Wall -o main
+	gcc src/*.c src/utils/*.c tests/*.c tests/utils/*.c -Wall -Wextra -pedantic -std=c99 -o main
 
 run:
 	./main
@@ -8,6 +8,6 @@ clean:
 	rm main
 
 all:
-    rm main
 	gcc src/*.c src/utils/*.c tests/*.c tests/utils/*.c -Wall -o main
-    ./main
+	./main
+	rm main
