@@ -206,7 +206,7 @@ void test_rmv_all(int * nb_tests, int * nb_success) {
     DynamicArray arr;
     double num = 12.00;
     int nb_to_add = 6;
-    double fixture[] = { };
+    double fixture[0];
 
     create(&arr);
     
